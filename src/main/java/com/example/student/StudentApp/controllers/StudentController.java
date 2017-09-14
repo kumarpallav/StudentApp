@@ -34,12 +34,14 @@ public class StudentController {
 		return studentRepository.findAll();
 	}
 	
-	@RequestMapping(path="student",method={RequestMethod.POST})
-	public String create(@RequestBody Student student)
+	@RequestMapping(path="student",method={RequestMethod.POST} )
+	public Message create(@RequestBody Student student)
 	{
+		Message m= new Message();
 		studentRepository.save(student);
 		
-		return "success";
+		m.setMsg("success");
+		return m;
 	}
 	@RequestMapping(path="student",method=RequestMethod.PUT)
 	public String updateStudent(@RequestBody Student student)

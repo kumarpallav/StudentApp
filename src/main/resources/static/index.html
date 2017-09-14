@@ -41,10 +41,55 @@
           
       });
   }
+  function submitStudent(){
+	  var form = $("#createForm");
+      var action = form.attr("action");
+      var data = form.serializeArray();
+	  $.ajax({
+          url: 'student', // url where to submit the request
+          type : "POST", // type of action POST || GET
+          dataType : 'json', // data type
+          
+          contentType: 'application/json',
+          data: JSON.stringify(getFormData(data)),
+         
+          success : function(result) {
+              // you can see the result from the console
+              // tab of the developer tools
+              console.log(result);
+              alert(result.msg);
+              location.reload();
+          },
+          error: function(xhr, resp, text) {
+              console.log(xhr, resp, text);
+          }
+      });
+ 
+  }
+  
+//utility function
+  function getFormData(data) {
+     var unindexed_array = data;
+     var indexed_array = {};
+
+     $.map(unindexed_array, function(n, i) {
+      indexed_array[n['name']] = n['value'];
+     });
+
+     return indexed_array;
+  }
   </script>
   </head>
   <body>
     <h1>Hello, Student!</h1>
+    <form id="createForm" action="student"  method="post">
+    Name <input type="text" name="name" id="name">
+    <br>Standard <input type="text" name="standard" id="standard">
+    <br>
+    Roll <input type="text" name="roll" id="roll">
+    <br>
+     <button type="button" onclick="submitStudent();">Submit</button>
+    </form>
 <table class="table table-stripped" id="student">
 <tr>
 <td>Name</td>
